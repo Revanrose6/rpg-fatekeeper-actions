@@ -4,8 +4,8 @@ info:
   description: API for dice rolls, character state, and multiverse rules
   version: 1.0.0
 servers:
-  - url: https://your.api.url.here
-    description: Placeholder server
+  - url: https://dicerolld20.knisaak6.workers.dev/
+    description: Live dice API
 paths:
   /roll:
     post:
