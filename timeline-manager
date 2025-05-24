@@ -1,0 +1,187 @@
+openapi: 3.1.0
+info:
+  title: TimelineManager
+  description: Manages in-universe narrative logs for Revan Rose’s multiversal journey, including detailed event entries, soulbond updates, and power tracking.
+  version: 1.0.0
+servers:
+  - url: https://your-timeline-api.com
+    description: Primary timeline API server
+paths:
+  /timeline:
+    get:
+      operationId: getAllTimelines
+      summary: Returns a list of all universe timelines.
+      responses:
+        '200':
+          description: List of timelines.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    universe:
+                      type: string
+                    title:
+                      type: string
+                    summary:
+                      type: string
+    post:
+      operationId: createTimeline
+      summary: Creates a new universe timeline record.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [universe, title]
+              properties:
+                universe:
+                  type: string
+                title:
+                  type: string
+                soulmates:
+                  type: array
+                  items: { type: string }
+                status:
+                  type: string
+                powersUsed:
+                  type: array
+                  items: { type: string }
+      responses:
+        '201':
+          description: Timeline created.
+
+  /timeline/{universe}:
+    get:
+      operationId: getTimeline
+      summary: Returns the full timeline for a given universe.
+      parameters:
+        - name: universe
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Timeline details with all entries.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  universe:
+                    type: string
+                  title:
+                    type: string
+                  entries:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        inUniverseDate:
+                          type: string
+                        event:
+                          type: string
+                        tags:
+                          type: array
+                          items: { type: string }
+                  soulmates:
+                    type: array
+                    items: { type: string }
+                  status:
+                    type: string
+                  powersUsed:
+                    type: array
+                    items: { type: string }
+
+  /timeline/{universe}/entry:
+    post:
+      operationId: addTimelineEntry
+      summary: Adds a detailed narrative event to a universe's timeline.
+      parameters:
+        - name: universe
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [inUniverseDate, event]
+              properties:
+                inUniverseDate:
+                  type: string
+                event:
+                  type: string
+                tags:
+                  type: array
+                  items: { type: string }
+      responses:
+        '201':
+          description: Event added to timeline.
+
+  /timeline/{universe}/entry/{entryId}:
+    put:
+      operationId: updateTimelineEntry
+      summary: Updates an existing event in the universe’s timeline.
+      parameters:
+        - name: universe
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: entryId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                inUniverseDate:
+                  type: string
+                event:
+                  type: string
+                tags:
+                  type: array
+                  items: { type: string }
+      responses:
+        '200':
+          description: Event updated successfully.
+
+  /timeline/{universe}/summary:
+    get:
+      operationId: getTimelineSummary
+      summary: Returns only the high-level summary for a universe.
+      parameters:
+        - name: universe
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Summary data.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  soulmates:
+                    type: array
+                    items: { type: string }
+                  status:
+                    type: string
+                  powersUsed:
+                    type: array
+                    items: { type: string }
