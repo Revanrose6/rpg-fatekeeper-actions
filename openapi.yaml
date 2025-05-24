@@ -1,0 +1,37 @@
+openapi: 3.1.0
+info:
+  title: Fatekeeper RPG API
+  description: API for dice rolls, character state, and multiverse rules
+  version: 1.0.0
+servers:
+  - url: https://your.api.url.here
+    description: Placeholder server
+paths:
+  /roll:
+    post:
+      operationId: rollDice
+      summary: Roll a die with modifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                type:
+                  type: string
+                  example: 1d20
+                modifier:
+                  type: integer
+                advantage:
+                  type: boolean
+      responses:
+        '200':
+          description: Dice roll result
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  result:
+                    type: integer
